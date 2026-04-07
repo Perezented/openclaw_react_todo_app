@@ -1,10 +1,23 @@
-// import React from 'react';
+// Import React for useEffect
+import { useEffect } from 'react';
 import { AddTodo } from './components/AddTodo';
 import { TodoList } from './components/TodoList';
 import { useTodoStore } from './store/todoStore';
 
 export default function App() {
+
   const { filter, setFilter, clearCompleted } = useTodoStore();
+
+  // Handle system preference for dark mode
+  useEffect(() => {
+    const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 p-4">

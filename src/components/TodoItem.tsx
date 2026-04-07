@@ -22,11 +22,12 @@ export function TodoItem({ todo }: TodoItemProps) {
   };
 
   return (
-    <div className="flex items-center justify-between p-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm">
-      <div className="flex items-center space-x-3">
+    <div className="flex items-center gap-3 px-4 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+      <div className="flex items-center gap-3 flex-1 min-w-0">
         <button
+          type="button"
           onClick={() => toggleTodo(todo.id)}
-          className="p-1 rounded-full"
+          className="shrink-0 p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
         >
           {todo.completed ? (
             <CheckCircle size={20} className="text-green-500" />
@@ -43,14 +44,16 @@ export function TodoItem({ todo }: TodoItemProps) {
           />
         ) : (
           <span
-            className={`text-gray-900 dark:text-white ${todo.completed ? 'line-through' : ''}`}
+            className={`break-all text-gray-900 dark:text-white font-medium ${
+              todo.completed ? 'line-through text-gray-400 dark:text-gray-500' : ''
+            }`}
           >
             {todo.text}
           </span>
         )}
       </div>
 
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center gap-1.5 shrink-0">
         {isEditing ? (
           <button
             onClick={handleSave}

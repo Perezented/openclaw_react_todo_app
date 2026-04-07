@@ -1,73 +1,70 @@
-# React + TypeScript + Vite
+# Todo App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A minimal **React + TypeScript** todo list built with **Vite**, using **Zustand** for state management, **TailwindCSS** for styling and **Lucide** icons. The project follows a classic *add‑list‑toggle‑edit‑delete* flow and stores todos in `localStorage` via Zustand’s persistence middleware.
 
-Currently, two official plugins are available:
+## Features
+- **Add** new tasks with a single input.
+- **Toggle** completion state by clicking the circle icon.
+- Inline **edit** of task text.
+- Delete individual tasks.
+- Filter view: *All*, *Active*, *Completed*.
+- Clear all completed tasks.
+- Responsive UI with dark mode support.
+- Unit tests with Vitest & React‑Testing‑Library.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Architecture
+```
+src/
+├─ components/   # Presentational / container components (AddTodo, TodoItem, TodoList)
+├─ store/        # Zustand store (todoStore.ts) – includes persistence via localStorage
+└─ App.tsx       # Root component with filter controls and layout
+```
+- **Zustand** manages the todo list state. The `persist` middleware keeps the list in `localStorage`, so data survives page reloads.
+- **TailwindCSS** provides a utility‑first styling layer; dark mode is handled via CSS variables and the `dark:` variant.
+- **Lucide-react** supplies SVG icons used throughout the UI.
+- **Vite** powers dev server (HMR) and production build.
 
-## React Compiler
+## Getting Started
+```bash
+# 1. Clone & enter repo
+git clone https://github.com/<user>/todo-app.git && cd todo-app
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+# 2. Install dependencies – we use pnpm for speed, but npm works as well
+pnpm install   # or: npm i
 
-## Expanding the ESLint configuration
+# 3. Run in development mode (hot‑reload)
+pnpm dev      # opens http://localhost:5173 by default
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+# 4. Build for production
+pnpm build    # outputs to /dist
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# 5. Preview built output locally
+pnpm preview
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Testing
+The project uses **Vitest** with Jest DOM matchers.
+```bash
+pnpm test
 ```
+
+### Example Test
+`src/store/todoStore.test.ts` covers basic store operations: add, toggle, delete.
+
+## Contributing
+1. Fork the repo and create a feature branch (`feature/<short-name>`).
+2. Run tests & lint before committing:
+   ```bash
+   pnpm test
+   pnpm lint
+   ```
+3. Ensure `tsc` passes: `pnpm build --no-minify`.
+4. Submit a PR and reference the related issue or task.
+
+### Style Guidelines
+- All new code should be **TypeScript**; avoid `any` unless absolutely necessary.
+- Follow existing naming conventions (`camelCase`, descriptive function names).
+- Tests are optional but highly encouraged for new features.
+
+## License
+MIT © Perezident
