@@ -1,47 +1,47 @@
+import { act } from '@testing-library/react';
 import { useTodoStore } from './todoStore';
-import { act, renderHook } from '@testing-library/react-hooks';
 
 describe('Todo Store', () => {
-  it('should add a todo', () => {
-    const { result } = renderHook(() => useTodoStore());
+  beforeEach(() => {
+    // Clear the store before each test
+    useTodoStore.setState({ todos: [], filter: 'all' });
+  });
 
+  it('should add a todo', () => {
     act(() => {
-      result.current.addTodo('Test Todo');
+      useTodoStore.getState().addTodo('Test Todo');
     });
 
-    expect(result.current.todos.length).toBe(1);
-    expect(result.current.todos[0].text).toBe('Test Todo');
+    const todos = useTodoStore.getState().todos;
+    expect(todos.length).toBe(1);
+    expect(todos[0].text).toBe('Test Todo');
   });
 
   it('should toggle a todo', () => {
-    const { result } = renderHook(() => useTodoStore());
-
     act(() => {
-      result.current.addTodo('Toggle Todo');
+      useTodoStore.getState().addTodo('Toggle Todo');
     });
 
-    const id = result.current.todos[0].id;
+    const id = useTodoStore.getState().todos[0].id;
 
     act(() => {
-      result.current.toggleTodo(id);
+      useTodoStore.getState().toggleTodo(id);
     });
 
-    expect(result.current.todos[0].completed).toBe(true);
+    expect(useTodoStore.getState().todos[0].completed).toBe(true);
   });
 
   it('should delete a todo', () => {
-    const { result } = renderHook(() => useTodoStore());
-
     act(() => {
-      result.current.addTodo('Delete Me');
+      useTodoStore.getState().addTodo('Delete Me');
     });
 
-    const id = result.current.todos[0].id;
+    const id = useTodoStore.getState().todos[0].id;
 
     act(() => {
-      result.current.deleteTodo(id);
+      useTodoStore.getState().deleteTodo(id);
     });
 
-    expect(result.current.todos.length).toBe(0);
+    expect(useTodoStore.getState().todos.length).toBe(0);
   });
 });
